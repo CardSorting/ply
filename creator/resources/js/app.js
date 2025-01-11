@@ -3,7 +3,6 @@ import Alpine from 'alpinejs';
 
 // Initialize Alpine.js
 window.Alpine = Alpine;
-Alpine.start();
 
 // Initialize Alpine.js components
 document.addEventListener('alpine:init', () => {
@@ -47,21 +46,23 @@ document.addEventListener('alpine:init', () => {
             year: new Date().getFullYear(),
             attacks: []
         },
-        attacks: [],
+        attacks: [{ name: '', damage: '0', energyCount: 1, description: '' }],
         init() {
-            // Initialize with one empty attack
-            this.attacks = [{ name: '', damage: '0', energyCount: 1, description: '' }];
             this.cardData.attacks = this.attacks;
-
         },
         addAttack() {
-            this.attacks.push({ name: '', damage: '0', energyCount: 1, description: '' });
+            if (this.attacks.length < 2) {
+                this.attacks.push({ name: '', damage: '0', energyCount: 1, description: '' });
+            }
         },
         removeAttack(index) {
             this.attacks.splice(index, 1);
             if (this.attacks.length === 0) {
-                this.addAttack();
+                this.attacks.push({ name: '', damage: '0', energyCount: 1, description: '' });
             }
         }
     }));
 });
+
+// Start Alpine.js after component registration
+Alpine.start();
